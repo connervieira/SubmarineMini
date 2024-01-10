@@ -11,6 +11,7 @@
 
 
 import os
+import json
 import time
 import requests
 
@@ -37,34 +38,38 @@ def check_connectivity(target):
 
 
 previously_offline_targets = [] # This list will be populated with hosts that have been offline for multiple cycles.
+requests.post(config["notifications"]["host"], data="Submarine Mini has been started.".encode(encoding='utf-8'))
 
-while True: # Run indefinitely, until terminated.
-    os.system("clear") # Clear the console output.
+try:
+    while True: # Run indefinitely, until terminated.
+        os.system("clear") # Clear the console output.
 
-    # Check connectivity.
-    print("Checking connectivity...")
-    offline_targets = [] # This list will be populated with any hosts that are offline.
-    for target in config["targets"]: # Iterate through each target in the configuration.
-        if (check_connectivity(target) == False): # Check to see if this target is offline.
-            offline_targets.append(target) # Add this target to the list of offline targets.
-    os.system("clear") # Clear the console output.
-
-
-    # Handle notifications.
-    for target in offline_targets:
-        if (target not in previously_offline_targets):
-            notification_text = str(config["targets"][target]["name"]) + " has gone offline."
-            requests.post(config["notifications"]["host"], data=notification_text.encode(encoding='utf-8'))
-    previously_offline_targets = offline_targets
+        # Check connectivity.
+        print("Checking connectivity...")
+        offline_targets = [] # This list will be populated with any hosts that are offline.
+        for target in config["targets"]: # Iterate through each target in the configuration.
+            if (check_connectivity(target) == False): # Check to see if this target is offline.
+                offline_targets.append(target) # Add this target to the list of offline targets.
+        os.system("clear") # Clear the console output.
 
 
-    # Handle the console display.
-    if (len(offline_targets) > 0): # Check to see if one or more targets is offline.
-        print("The following targets are offline:")
-        for target in offline_targets: # Iterate through each offline target.
-            print("\t", str(target))
-    else:
-        print("All targets are online")
+        # Handle notifications.
+        for target in offline_targets:
+            if (target not in previously_offline_targets):
+                notification_text = str(config["targets"][target]["name"]) + " has gone offline."
+                requests.post(config["notifications"]["host"], data=notification_text.encode(encoding='utf-8'))
+        previously_offline_targets = offline_targets
 
 
-    time.sleep(float(config["interval"])) # Wait before repeating the loop.
+        # Handle the console display.
+        if (len(offline_targets) > 0): # Check to see if one or more targets is offline.
+            print("The following targets are offline:")
+            for target in offline_targets: # Iterate through each offline target.
+                print("\t", str(target))
+        else:
+            print("All targets are online")
+
+
+        time.sleep(float(config["general"]["interval"])) # Wait before repeating the loop.
+except:
+    requests.post(config["notifications"]["host"], data="Submarine Mini has been stopped.".encode(encoding='utf-8'))
