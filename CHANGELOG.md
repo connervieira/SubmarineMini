@@ -7,6 +7,6 @@ This document contains all of the changes for each version of Submarine Mini.
 
 ### Initial Release
 
-*Release date to be determined*
+January 13th, 2024
 
 - Core functionality

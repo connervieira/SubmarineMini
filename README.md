@@ -18,3 +18,14 @@ Submarine Mini is a simple command line utility designed to monitor the status o
 ## Documentation
 
 To learn more about intalling, configuring, and using Submarine Mini, see the [DOCUMENTATION.md](DOCUMENTATION.md) file.
+
+
+## Features
+
+### Simple
+
+The installation and setup process for Submarine Mini is extremely quick and straight-forward. Network administrators should be able to get an instance up and running within an hour.
+
+### Lightweight
+
+Submarine Mini is extremely lightweight, and can run comfortably on low-powered single-board computers like the Raspberry Pi
