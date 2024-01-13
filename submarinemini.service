@@ -1,0 +1,11 @@
+[Unit]
+Description=Submarine Mini
+After=multi-user.target
+[Service]
+Type=simple
+Restart=always
+RestartSec=3
+User=pi
+ExecStart=python3 /home/pi/Software/SubmarineMini/main.py
+[Install]
+WantedBy=multi-user.target
